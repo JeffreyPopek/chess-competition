@@ -51,7 +51,8 @@ int ChessSimulator::MinimaxSearch(chess::Board& board, int depth, bool max)
 {
     // end of search, reached max depth allowed
     if (depth == 0) 
-        return 0;
+        return EvalBoardState(board);
+
 
     // generate all legal moves from current board state
     chess::Movelist moves;
@@ -59,7 +60,7 @@ int ChessSimulator::MinimaxSearch(chess::Board& board, int depth, bool max)
 
     // no moves, either stalemate or checkmate
     if (moves.size() == 0) 
-        return 0;
+        return EvalBoardState(board);
 
     int bestScore = 0;
     if(max)
@@ -81,4 +82,36 @@ int ChessSimulator::MinimaxSearch(chess::Board& board, int depth, bool max)
     }
 
     return bestScore;
+}
+
+int ChessSimulator::EvalBoardState(const chess::Board& board) 
+{
+    /*
+        loop through board
+        check each tile
+		if piece on it then change score based on color and piece value
+        return score
+    */
+
+    int score = 0;
+
+    for (int tile = 0; tile < 64; tile++) 
+    {
+        chess::Piece piece = board.at(chess::Square(tile));
+
+        // if empty then skip
+        if (piece == chess::Piece::NONE)
+            continue;
+
+        
+        int value = PIECE_WEIGHTS[piece.type()];
+
+        // change score based on color and piece value
+        if (piece.color() == chess::Color::WHITE)
+            score += value;
+        else
+            score -= value;
+    }
+
+    return score; 
 }
