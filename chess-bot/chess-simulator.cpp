@@ -30,11 +30,11 @@ std::string ChessSimulator::Move(std::string fen)
 
     chess::Move bestMove = moves[0];
 
-    // eval each leagl move with minimax    
+    // eval each leagl move with minmax    
     for (chess::Move move : moves)
     {
         board.makeMove(move);                            
-        int score = MinimaxSearch(board, MAX_DEPTH, !isWhite);        
+        int score = MinmaxSearch(board, MAX_DEPTH, !isWhite);        
         board.unmakeMove(move);                         
 
         if ((isWhite && score > bestScore) || (!isWhite && score < bestScore)) 
@@ -47,7 +47,7 @@ std::string ChessSimulator::Move(std::string fen)
     return chess::uci::moveToUci(bestMove);
 }
 
-int ChessSimulator::MinimaxSearch(chess::Board& board, int depth, bool max) 
+int ChessSimulator::MinmaxSearch(chess::Board& board, int depth, bool max) 
 {
     // end of search, reached max depth allowed
     if (depth == 0) 
@@ -72,7 +72,7 @@ int ChessSimulator::MinimaxSearch(chess::Board& board, int depth, bool max)
     for (chess::Move move : moves)
     {
         board.makeMove(move);
-        int score = MinimaxSearch(board, depth - 1, !max);
+        int score = MinmaxSearch(board, depth - 1, !max);
         board.unmakeMove(move);
 
         if (max)
