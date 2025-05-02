@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <unordered_map>
 #include "chess.hpp"
 
 
@@ -10,18 +11,16 @@ namespace ChessSimulator {
  * @param fen The board as FEN
  * @return std::string The move as UCI
  */
-std::unordered_map<chess::PieceType, int> PIECE_WEIGHTS =
-{
-    {chess::PieceType::PAWN,   1},
-    {chess::PieceType::KNIGHT, 3},
-    {chess::PieceType::BISHOP, 3},
-    {chess::PieceType::ROOK,   5},
-    {chess::PieceType::QUEEN,  9},
-    {chess::PieceType::KING, 1000}
-};
 
-const int MAX_DEPTH = 3; // can change if you want
+	const int PAWN_VALUE = 1;
+	const int KNIGHT_VALUE = 3;
+	const int BISHOP_VALUE = 3;
+	const int ROOK_VALUE = 5;
+	const int QUEEN_VALUE = 9;
+	const int KING_VALUE = 1000;
+
+const int MAX_DEPTH = 5; // can change if you want
 std::string Move(std::string fen);
-int MinimaxSearch(chess::Board& board, int depth, bool max);
+int MinmaxSearch(chess::Board& board, int depth, bool max);
 int EvalBoardState(const chess::Board& board);
 }

@@ -103,9 +103,21 @@ int ChessSimulator::EvalBoardState(const chess::Board& board)
         if (piece == chess::Piece::NONE)
             continue;
 
-        
-        int value = PIECE_WEIGHTS[piece.type()];
+        int value = 0;
 
+		if (piece.type() == chess::PieceType::PAWN)
+			value = PAWN_VALUE;
+		else if (piece.type() == chess::PieceType::KNIGHT)
+			value = KNIGHT_VALUE;
+		else if (piece.type() == chess::PieceType::BISHOP)
+			value = BISHOP_VALUE;
+		else if (piece.type() == chess::PieceType::ROOK)
+			value = ROOK_VALUE;
+		else if (piece.type() == chess::PieceType::QUEEN)
+			value = QUEEN_VALUE;
+		else if (piece.type() == chess::PieceType::KING)
+			value = KING_VALUE;
+        
         // change score based on color and piece value
         if (piece.color() == chess::Color::WHITE)
             score += value;
